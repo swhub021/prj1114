@@ -145,12 +145,12 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
             val hashMap = hashMapOf<String, Any>(
                 "TIME" to chosen_time.text.toString(),
                 "DEPARTURES" to et_location.text.toString(),
-                "ARRIVALS" to et_location2.text.toString()
+                "ARRIVALS" to et_location2.text.toString(),
 
             )
 
             // use the add() method to create a document inside users collection
-            FirebaseUtils().fireStoreDatabase.collection("group")
+            FirebaseUtils().createdGroup.collection("createdGroup")
                 .add(hashMap)
                 .addOnSuccessListener {
                     Log.d(TAG, "Added document with ID ${it.id}")
