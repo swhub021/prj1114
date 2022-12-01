@@ -30,6 +30,9 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
     private var mLatitude: Double = 0.0
     private var mLongitude: Double = 0.0
 
+    private var mLatitude2: Double = 0.0
+    private var mLongitude2: Double = 0.0
+
 
     private var cal = Calendar.getInstance()
 
@@ -51,8 +54,6 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
         }
 
 
-
-
         timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay: Int, minute: Int ->
             cal.set(Calendar.HOUR_OF_DAY, hourOfDay) // HOUR_OF_DAY과 MINUTE은 사용자가 선택한 시와 분
             cal.set(Calendar.MINUTE, minute)
@@ -61,6 +62,7 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
         }
         chosen_time.setOnClickListener(this)
         et_location.setOnClickListener(this)
+        et_location2.setOnClickListener(this)
         btn_save.setOnClickListener(this)
     }
 
@@ -91,6 +93,23 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
                     e.printStackTrace()
                 }
             }
+
+            R.id.et_location2 -> {
+                try {
+                    // These are the list of fields which we required is passed
+                    val fields = listOf(
+                        Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG,
+                        Place.Field.ADDRESS
+                    )
+                    // Start the autocomplete intent with a unique request code.
+                    val intent =
+                        Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                            .build(this@Act05Create)
+                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE2)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
 
 
@@ -107,6 +126,15 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
                 mLatitude = place.latLng!!.latitude
                 mLongitude = place.latLng!!.longitude
             }
+
+            if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE2) {
+
+                val place2: Place = Autocomplete.getPlaceFromIntent(data!!)
+
+                et_location2.setText(place2.address)
+                mLatitude2 = place2.latLng!!.latitude
+                mLongitude2 = place2.latLng!!.longitude
+            }
         }
         }
 
@@ -116,11 +144,13 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
             // create a dummy data
             val hashMap = hashMapOf<String, Any>(
                 "TIME" to chosen_time.text.toString(),
-                "DEPARTURES" to et_location.text.toString()
+                "DEPARTURES" to et_location.text.toString(),
+                "ARRIVALS" to et_location2.text.toString()
+
             )
 
             // use the add() method to create a document inside users collection
-            FirebaseUtils().fireStoreDatabase.collection("users")
+            FirebaseUtils().fireStoreDatabase.collection("group")
                 .add(hashMap)
                 .addOnSuccessListener {
                     Log.d(TAG, "Added document with ID ${it.id}")
@@ -161,6 +191,36 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private val mLocationCallback2 = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+            mLatitude2 = mLastLocation.latitude
+            Log.e("Current Latitude", "$mLatitude2")
+            mLongitude2 = mLastLocation.longitude
+            Log.e("Current Longitude", "$mLongitude2")
+
+            // TODO(Step 2: Call the AsyncTask class fot getting an address from the latitude and longitude.)
+            // START
+            val addressTask =
+                GetAddressFromLatLng(this@Act05Create, mLatitude2, mLongitude2)
+
+            addressTask.setAddressListener(object :
+                GetAddressFromLatLng.AddressListener {
+                override fun onAddressFound(address: String?) {
+                    Log.e("Address ::", "" + address)
+                    et_location2.setText(address) // Address is set to the edittext
+                }
+
+                override fun onError() {
+                    Log.e("Get Address ::", "Something is wrong...")
+                }
+            })
+
+            addressTask.getAddress()
+            // END
+        }
+    }
+
     // 사용자가 다이얼로그에서 선택한 시간이 텍스트 상자에 입력되는 되도록 함.
     private fun updateDateInView() {
         val myFormat = "h:mm a" // 입력되는 형식을 지정.
@@ -170,5 +230,6 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         private const val PLACE_AUTOCOMPLETE_REQUEST_CODE = 3
+        private const val PLACE_AUTOCOMPLETE_REQUEST_CODE2 = 2
     }
 }
