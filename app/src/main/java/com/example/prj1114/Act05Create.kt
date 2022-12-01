@@ -149,7 +149,7 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
 
             )
 
-            // use the add() method to create a document inside users collection
+
             FirebaseUtils().createdGroup.collection("createdGroup")
                 .add(hashMap)
                 .addOnSuccessListener {
@@ -221,7 +221,7 @@ class Act05Create : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    // 사용자가 다이얼로그에서 선택한 시간이 텍스트 상자에 입력되는 되도록 함.
+
     private fun updateDateInView() {
         val myFormat = "h:mm a" // 입력되는 형식을 지정.
         val sdf = SimpleDateFormat(myFormat, Locale.getDefault()) // A date format

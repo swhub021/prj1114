@@ -16,4 +16,40 @@
     <string name="btn_text_view_on_map">VIEW ON MAP</string>
     <string name="add_place_select_current_location_text">SELECT CURRENT LOCATION</string>
 
+    <string name="strBtn1">regis</string>
+    <string name="strBtn3">create</string>
+    <string name="act_name1">Act01Regis</string>
+    <string name="act_name2">Act02Search</string>
+    <string name="act_name3">Act03Map</string>
+    <string name="act_name4">Act04List</string>
+    <string name="act_name5">Act05Create</string>
+    <string name="act_name6">Act06Article</string>
+    <string name="textView1">Email Authentication</string>
+    <string name="textView2">departure time</string>
+    <string name="textView3">From</string>
+    <string name="textView4">To</string>
+    <string name="strBtnSendMail">send</string>
+    <string name="strBtnMailCheck">ok</string>
+    <string name="editTextTextPersonName2">nickname</string>
+    <string name="strBtnRegis">register</string>
+    <string name="btnSetTime">HH:MM PM</string>
+    <string name="btnGPS">current_location</string>
+    <string name="btnSetPlace1">departure point</string>
+    <string name="btnSetPlace2">arrival point</string>
+    <string name="btnSearch">Search</string>
+    <string name="btnCreate">Create</string>
+    <string name="btnMap1">replace_item1</string>
+    <string name="btnMap2">replace_item2</string>
+    <string name="btnMap3">replace_item3</string>
+    <string name="textClock1">HH:MM</string>
+    <string name="textClock2">HH:MM</string>
+    <string name="textClock3">HH:MM</string>
+    <string name="textsp1">area1</string>
+    <string name="textsp2">area2</string>
+    <string name="textsp3">area3</string>
+    <string name="textep1">area11</string>
+    <string name="textep2">area21</string>
+    <string name="textep3">area31</string>
+    <string name="teamId">aaa</string>
+
 </resources>

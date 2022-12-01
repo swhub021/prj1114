@@ -34,7 +34,6 @@ class Act04List : AppCompatActivity() {
         groups_recyclerview.layoutManager = LinearLayoutManager(this)
 
 
-        // Act05Create로 이동하는 플로팅 버튼.
         listToCreateFloatingActionButton.setOnClickListener {
             val intent = Intent(this@Act04List, Act05Create::class.java)
 
@@ -67,7 +66,7 @@ class Act04List : AppCompatActivity() {
         inner class ViewHolder(view: android.view.View) : RecyclerView.ViewHolder(view) {
         }
 
-        // onCreateViewHolder에서 만든 view와 실제 데이터를 연결
+
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             var viewHolder = (holder as ViewHolder).itemView
 
@@ -76,7 +75,7 @@ class Act04List : AppCompatActivity() {
             viewHolder.ARRIVALS.text = createdGroup[position].ARRIVALS
         }
 
-        // 리사이클러뷰의 아이템 총 개수 반환
+
         override fun getItemCount(): Int {
             return createdGroup.size
         }
